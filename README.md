@@ -16,37 +16,6 @@ YYYYMMDDhhmmss:REGION/CITY
 Along with the clear benefits of timezone support the format also reduced byte usage while in transport and plain storage as ISO-8601[[7]] still required dash, T and sometimes Z characters to structure it's format. AltSO-8601[[4]] does not attempt to create a recognisable format as the sender and receiving will have already agreed on the format being used and know how to parse.
 
 
-## Conceptual Formats
-The original formats considered for AltSO-8601[[4]] were thinking about the future and not the present, something that although came from good intentions unfortunately presented chaos and needed filtering.
-
-### @computation
-This format was to also allow for inclusion of the computation number from within the cpu at the time of generating the date and time value, this was scrapped as the AltSO-8601[[4]] standard was not intended for tracking cpu computations cross timezones and deemed irrelevant.
-```
-YYYYMMDDhhmmss@computation:REGION/CITY
-```
-
-### AltSO-8601[[4]] +ISO-8601[[7]]
-This format was an attempt to carry the offset used to generate the date and time that was then tagged for the particular timezone, the need was based on what if you wanted to know the offset from UTC that provided the date and time that was then branded with the indicative timezone. This may still be a need in the future but we are still too burned by ISO-8601[[7]] usage of the offset to care for it in this format.
-```
-YYYYMMDDhhmmss:REGION/CITY+hhmm
-```
-
-### Planetary Considerations
-This format was the include a prefixed square bracketed area of the date and time that provided information about what planet the date and time referred to and at what radius from the centre of the planet the time was based.
-```
-[PLANET:RADIUS]YYYYMMDDhhmmss:REGION/CITY
-```
-* `PLANET` was basically the name of the planet, if planets have unique identifers then these would also be accepted in the parsing so that when we care more about millions of planets we can assign them numerical identifiers and keep this property of the date and time a little more formal and less lengthy with long named planets.
-* `:RADIUS` is an optional value that if used indicates how far from the center of the planet the date and time is intended and means the parsing should consider at what rate time progresses that far from the center of the planet with respect to the planets rotation and size.
-
-### Not This Planet
-To handle rare circumstances where the indicated planet radius is exactly the same distance or closer to another plant, we included the option to indicate what planets should not be considered to take over the radius position of the date and time. This format was quickly removed as we were indicating the planet for the date and time by name but still respect that this may help in conversions to the other planets local date and time.
-```
-[PLANET:RADIUS!PLANET2,PLANET3]YYYYMMDDhhmmss:REGION/CITY 
-```
-* `!PLANET2,PLANET3` is a comma separated array of other planet names / identifiers.
-
-
 ## Software Implementations
 
 ### PHP Library: AlteredCarbon[[1]]
